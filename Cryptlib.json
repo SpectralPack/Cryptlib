@@ -1,6 +1,6 @@
 {
-	"id": "CryptLib",
-	"name": "CryptLib",
+	"id": "Cryptlib",
+	"name": "Cryptlib",
 	"display_name": "cryl",
 	"author": ["The Cryptid discord"],
 	"description": "A library mod for all the functions that Cryptid has to offer",
