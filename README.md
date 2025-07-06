@@ -5,4 +5,6 @@ This includes:
 * Value Manipulation
 * Forcetrigging including Vanilla support
 * Pluralisation for card descriptions
+* Talisman independant ^mult & ^chips if Talisman isnt present
+* Function definitions for to_big, to_number and lenient_bignum incase Talisman isnt present
 * Various other utility functions
