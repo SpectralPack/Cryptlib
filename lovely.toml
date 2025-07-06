@@ -1,0 +1,144 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# plural handler (annoyingly fragile overwrite)
+# also i pass the whole vars here, even though it's inefficient, just because it looks better
+# whatever
+[[patches]]
+[patches.pattern]
+target = "functions/misc_functions.lua"
+pattern = '''
+assembled_string = assembled_string..(type(subpart) == 'string' and subpart or format_ui_value(args.vars[tonumber(subpart[1])]) or 'ERROR')
+'''
+position = "at"
+payload = '''
+assembled_string = assembled_string..(type(subpart) == 'string' and subpart or (Cryptid.pluralize and Cryptid.pluralize(subpart[1], args.vars)) or format_ui_value(args.vars[tonumber(subpart[1])]) or 'ERROR')
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "elseif eval_type == 'dollars' then"
+position = "before"
+payload = '''
+elseif eval_type == 'x_chips' then 
+	sound = 'cry_xchip'
+	amt = amt
+	text = 'X' .. amt
+	colour = G.C.CHIPS
+	config.type = 'fade'
+	config.scale = 0.7
+elseif eval_type == 'e_chips' then 
+	sound = 'cry_echip'
+	amt = amt
+	text = '^' .. amt
+	colour = G.C.CHIPS
+	config.type = 'fade'
+	config.scale = 0.7
+elseif eval_type == 'e_mult' then 
+	sound = 'cry_emult'
+	amt = amt
+	text = '^' .. amt .. ' ' .. localize('k_mult')
+	colour = G.C.MULT
+	config.type = 'fade'
+	config.scale = 0.7
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "local info_queue = {}"
+position = "after"
+payload = '''if _c.cry_disabled or (_c.force_gameset and _c.force_gameset == 'disabled') then
+    if _c.cry_disabled then
+        if _c.cry_disabled.type == "card_dependency" then
+            local name = Cryptid.get_center(_c.cry_disabled.key) and localize{type = 'name_text', set = Cryptid.get_center(_c.cry_disabled.key).set, key = _c.cry_disabled.key} or _c.cry_disabled.key
+            info_queue[#info_queue+1] = {key = 'disabled_card_dependency', set = 'Other', specific_vars = {name}}
+        elseif _c.cry_disabled.type == "mod_dependency" then
+            local name = Cryptid.cross_mod_names[_c.cry_disabled.key] or _c.cry_disabled.key
+            info_queue[#info_queue+1] = {key = 'disabled_mod_dependency', set = 'Other', specific_vars = {name}}
+        elseif _c.cry_disabled.type == "mod_conflict" then
+            local name = SMODS.Mods[_c.cry_disabled.key].name
+            info_queue[#info_queue+1] = {key = 'disabled_mod_conflict', set = 'Other', specific_vars = {name}}
+        else
+            if not (_c.force_gameset and _c.force_gameset ~= 'disabled') then
+                info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
+            end
+        end
+    else
+        info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
+    end
+end'''
+match_indent = true
+
+# replace rarity badge with gameset
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "card_type = (debuffed and AUT.card_type ~= 'Enhanced') and localize('k_debuffed') or card_type"
+position = "after"
+payload = '''
+
+if AUT.card_type == "Back" then
+    card_type = localize('b_deck')
+end
+if AUT.card_type == "Tag" then
+    card_type = localize('b_tag')
+end
+if AUT.card_type == "Blind" then
+    card_type = localize('b_blind')
+end
+if AUT.card_type == "Content Set" then
+    card_type = localize('k_content_set')
+end
+if card.gameset_select then
+    card_type = localize('cry_gameset_'..card.config.center.force_gameset)
+    if card_type == "ERROR" then
+        card_type = localize('cry_gameset_custom')
+    end
+end
+if not card.gameset_select and card.config.center and card.config.center.cry_disabled then
+    card_type = localize('cry_gameset_disabled')
+end
+'''
+match_indent = true
+
+# Descriptions for Backs and Blinds in gameset UI
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "elseif _c.set == 'Tag' then"
+position = "before"
+payload = "elseif _c.set == 'Back' or _c.set == 'Blind' then localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = specific_vars or {}}"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = '''function love.load()'''
+position = "before"
+payload = '''
+Cryptid = {}
+Cryptid.aliases = {}
+Cryptid.pointerblist = {}
+Cryptid.pointerblistrarity = {}
+Cryptid.mod_gameset_whitelist = {}
+
+Cryptid.rarity_table = {
+}
+
+function cry_format(...)
+	return ...
+end
+
+-- These ones are deprecated, they do not do anything and are just here to prevent crashes
+Cryptid.memepack = {}
+Cryptid.food = {}
+Cryptid.M_jokers = {}
+Cryptid.Megavouchers = {}
+'''
+match_indent = true
