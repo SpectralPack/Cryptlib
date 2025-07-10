@@ -544,3 +544,9 @@ function SMODS.injectItems(...)
 	end
 	SMODS.calculation_keys = a_keys
 end
+
+function Cryptid.pulse_flame(duration, intensity) -- duration is in seconds, intensity is in idfk honestly, but it increases pretty quickly
+	G.cry_flame_override = G.cry_flame_override or {}
+	G.cry_flame_override["duration"] = duration or 0.01
+	G.cry_flame_override["intensity"] = intensity or 2
+end
