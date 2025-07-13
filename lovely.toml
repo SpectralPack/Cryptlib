@@ -158,3 +158,26 @@ if not (SMODS.Mods["Cryptid"] or {}).can_load and self.config.center.soul_pos an
 end
 '''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''add_tag(_tag.config.ref_table)'''
+position = "at"
+payload = '''
+add_tag(Cryptid.get_next_tag or _tag.config.ref_table, true)
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "local _tag = Tag(G.GAME.round_resets.blind_tags[blind_choice], nil, blind_choice)"
+position = "after"
+payload = '''
+local tag = Cryptid.get_next_tag()
+if tag then
+	_tag = Tag(tag, nil, blind_choice)
+end
+'''
+match_indent = true

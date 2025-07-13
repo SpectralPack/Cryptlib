@@ -28,3 +28,22 @@ function G.UIDEF.card_h_popup(card)
     end
     return ref(card)
 end
+
+if (SMODS.Mods["AntePreview"] or {}).can_load and not (SMODS.Mods["Cryptid"] or {}).can_load then
+	local predict_hook = predict_next_ante
+	function predict_next_ante()
+		local predictions = predict_hook()
+		local s = Cryptid.get_next_tag("Small")
+		local b = Cryptid.get_next_tag("Big")
+		if s or b then
+			predictions.Small.tag = s or predictions.Small.tag
+			predictions.Big.tag = b or predictions.Big.tag
+		end
+		if G.GAME.modifiers.cry_no_tags then
+			for _, pred in pairs(predictions) do
+				pred.tag = nil
+			end
+		end
+		return predictions
+	end
+end
