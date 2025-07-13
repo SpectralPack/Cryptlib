@@ -53,7 +53,7 @@ match_indent = true
 target = "functions/common_events.lua"
 pattern = "local info_queue = {}"
 position = "after"
-payload = '''if _c.cry_disabled or (_c.force_gameset and _c.force_gameset == 'disabled') then
+payload = '''if not (SMODS.Mods["Cryptid"] or {}).can_load and _c.cry_disabled or (_c.force_gameset and _c.force_gameset == 'disabled') then
     if _c.cry_disabled then
         if _c.cry_disabled.type == "card_dependency" then
             local name = Cryptid.get_center(_c.cry_disabled.key) and localize{type = 'name_text', set = Cryptid.get_center(_c.cry_disabled.key).set, key = _c.cry_disabled.key} or _c.cry_disabled.key
@@ -132,7 +132,7 @@ Cryptid.rarity_table = {
 }
 
 function cry_format(...)
-	return ...
+    return ...
 end
 
 -- These ones are deprecated, they do not do anything and are just here to prevent crashes
@@ -150,7 +150,7 @@ target = "card.lua"
 pattern = "if self.config.center.soul_pos and (self.config.center.discovered or self.bypass_discovery_center) then"
 position = "after"
 payload = '''
-if self.config.center.soul_pos and self.config.center.soul_pos.extra and (self.config.center.discovered or self.bypass_discovery_center) then
+if not (SMODS.Mods["Cryptid"] or {}).can_load and self.config.center.soul_pos and self.config.center.soul_pos.extra and (self.config.center.discovered or self.bypass_discovery_center) then
     local scale_mod = 0.07-- + 0.02*math.cos(1.8*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
     local rotate_mod = 0--0.05*math.cos(1.219*G.TIMERS.REAL) + 0.00*math.cos((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
     self.children.floating_sprite2:draw_shader('dissolve',0, nil, nil, self.children.center,scale_mod, rotate_mod,nil, 0.1--[[ + 0.03*math.cos(1.8*G.TIMERS.REAL)--]],nil, 0.6)
