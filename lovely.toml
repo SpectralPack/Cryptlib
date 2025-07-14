@@ -123,10 +123,12 @@ pattern = '''function love.load()'''
 position = "before"
 payload = '''
 Cryptid = {}
+CryptLib = true
 Cryptid.aliases = {}
 Cryptid.pointerblist = {}
 Cryptid.pointerblistrarity = {}
 Cryptid.mod_gameset_whitelist = {}
+Cryptid.mod_whitelist = {}
 
 Cryptid.rarity_table = {
 }
