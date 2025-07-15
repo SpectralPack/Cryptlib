@@ -122,19 +122,24 @@ target = "main.lua"
 pattern = '''function love.load()'''
 position = "before"
 payload = '''
-Cryptid = {}
-CryptLib = true
-Cryptid.aliases = {}
-Cryptid.pointerblist = {}
-Cryptid.pointerblistrarity = {}
-Cryptid.mod_gameset_whitelist = {}
-Cryptid.mod_whitelist = {}
+if not Cryptid then 
+    Cryptid = {}
+    CryptLib = true
+    Cryptid.aliases = {}
+    Cryptid.pointerblist = {}
+    Cryptid.pointerblistrarity = {}
+    Cryptid.mod_gameset_whitelist = {}
+    Cryptid.mod_whitelist = {}
 
-Cryptid.rarity_table = {
-}
+    Cryptid.rarity_table = {
+    }
 
-function cry_format(...)
-    return ...
+    function cry_format(...)
+        return ...
+    end
+else
+    CryptLib = true
+    CryptLibNoCryptid = true
 end
 '''
 match_indent = true
