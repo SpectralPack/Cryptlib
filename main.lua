@@ -2,6 +2,13 @@ Cryptid_config = {
     gameset_toggle = true
 }
 
+SMODS.Atlas {
+    key = "modicon",
+    path = "crylib_icon.png",
+    px = 34,
+    py = 34,
+}:register()
+
 local files = {
     "talisman",
     "manipulate",
