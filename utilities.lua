@@ -143,7 +143,7 @@ function Cryptid.is_card_big(joker)
 		return false
 	end
 
-	local in_blacklist = (Cryptid or {}).big_num_blacklist[center.key or "Nope!"] or false
+	local in_blacklist = ((Cryptid or {}).big_num_blacklist or {})[center.key or "Nope!"] or false
 
 	return not in_blacklist --[[or
 	       (center.mod and center.mod.id == "Cryptid" and not center.no_break_infinity) or center.break_infinity--]]
@@ -549,4 +549,8 @@ function Cryptid.pulse_flame(duration, intensity) -- duration is in seconds, int
 	G.cry_flame_override = G.cry_flame_override or {}
 	G.cry_flame_override["duration"] = duration or 0.01
 	G.cry_flame_override["intensity"] = intensity or 2
+end
+
+function Cryptid.get_next_tag()
+
 end
