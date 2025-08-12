@@ -53,24 +53,27 @@ match_indent = true
 target = "functions/common_events.lua"
 pattern = "local info_queue = {}"
 position = "after"
-payload = '''if not (SMODS.Mods["Cryptid"] or {}).can_load and _c.cry_disabled or (_c.force_gameset and _c.force_gameset == 'disabled') then
-    if _c.cry_disabled then
-        if _c.cry_disabled.type == "card_dependency" then
-            local name = Cryptid.get_center(_c.cry_disabled.key) and localize{type = 'name_text', set = Cryptid.get_center(_c.cry_disabled.key).set, key = _c.cry_disabled.key} or _c.cry_disabled.key
-            info_queue[#info_queue+1] = {key = 'disabled_card_dependency', set = 'Other', specific_vars = {name}}
-        elseif _c.cry_disabled.type == "mod_dependency" then
-            local name = Cryptid.cross_mod_names[_c.cry_disabled.key] or _c.cry_disabled.key
-            info_queue[#info_queue+1] = {key = 'disabled_mod_dependency', set = 'Other', specific_vars = {name}}
-        elseif _c.cry_disabled.type == "mod_conflict" then
-            local name = SMODS.Mods[_c.cry_disabled.key].name
-            info_queue[#info_queue+1] = {key = 'disabled_mod_conflict', set = 'Other', specific_vars = {name}}
-        else
-            if not (_c.force_gameset and _c.force_gameset ~= 'disabled') then
-                info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
+payload = '''
+if not (SMODS.Mods["Cryptid"] or {}).can_load then
+    if _c.cry_disabled or (_c.force_gameset and _c.force_gameset == 'disabled') then
+        if _c.cry_disabled then
+            if _c.cry_disabled.type == "card_dependency" then
+                local name = Cryptid.get_center(_c.cry_disabled.key) and localize{type = 'name_text', set = Cryptid.get_center(_c.cry_disabled.key).set, key = _c.cry_disabled.key} or _c.cry_disabled.key
+                info_queue[#info_queue+1] = {key = 'disabled_card_dependency', set = 'Other', specific_vars = {name}}
+            elseif _c.cry_disabled.type == "mod_dependency" then
+                local name = Cryptid.cross_mod_names[_c.cry_disabled.key] or _c.cry_disabled.key
+                info_queue[#info_queue+1] = {key = 'disabled_mod_dependency', set = 'Other', specific_vars = {name}}
+            elseif _c.cry_disabled.type == "mod_conflict" then
+                local name = SMODS.Mods[_c.cry_disabled.key].name
+                info_queue[#info_queue+1] = {key = 'disabled_mod_conflict', set = 'Other', specific_vars = {name}}
+            else
+                if not (_c.force_gameset and _c.force_gameset ~= 'disabled') then
+                    info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
+                end
             end
+        else
+            info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
         end
-    else
-        info_queue[#info_queue+1] = {key = 'disabled', set = 'Other'}
     end
 end'''
 match_indent = true

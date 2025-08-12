@@ -206,7 +206,7 @@ function Cryptid.gameset_config_UI(center)
 			},
 		},
 	}
-	if center.set == "Content Set" then
+	if center.set == "Content Set" and not (SMODS.Mods["Cryptid"] or {}).can_load then
 		G.viewedContentSet = center
 		args.back2 = true
 		args.back2_func = "your_collection_current_set"
