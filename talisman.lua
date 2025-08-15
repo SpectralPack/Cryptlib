@@ -13,7 +13,7 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 	end
 
 	local smods_xchips = false
-	for _, v in pairs(SMODS.calculation_keys) do
+	for _, v in pairs(SMODS.scoring_parameter_keys) do
 		if v == "x_chips" then
 			smods_xchips = true
 			break
@@ -41,8 +41,9 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 			if effect.card then
 				juice_card(effect.card)
 			end
-			hand_chips = mod_chips(hand_chips ^ amount)
-			update_hand_text({ delay = 0 }, { chips = hand_chips, mult = mult })
+			local chips = SMODS.Scoring_Parameters["chips"]
+			chips.current = mod_chips(chips.current ^ amount)
+			update_hand_text({delay = 0}, {chips = chips.current})
 			if not effect.remove_default_message then
 				if from_edition then
 					card_eval_status_text(
@@ -74,8 +75,9 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 			if effect.card then
 				juice_card(effect.card)
 			end
-			mult = mod_mult(mult ^ amount)
-			update_hand_text({ delay = 0 }, { chips = hand_chips, mult = mult })
+			local mult = SMODS.Scoring_Parameters["mult"]
+			mult.current = mod_mult(mult.current ^ amount)
+			update_hand_text({delay = 0}, {mult = mult.current})
 			if not effect.remove_default_message then
 				if from_edition then
 					card_eval_status_text(
@@ -107,34 +109,12 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 	for _, v in ipairs({
 		"e_mult",
 		"e_chips",
-		"ee_mult",
-		"ee_chips",
-		"eee_mult",
-		"eee_chips",
-		"hyper_mult",
-		"hyper_chips",
-		"emult",
-		"echips",
-		"eemult",
-		"eechips",
-		"eeemult",
-		"eeechips",
-		"hypermult",
-		"hyperchips",
-		"Emult_mod",
-		"Echip_mod",
-		"EEmult_mod",
-		"EEchip_mod",
-		"EEEmult_mod",
-		"EEEchip_mod",
-		"hypermult_mod",
-		"hyperchip_mod",
 	}) do
-		table.insert(SMODS.calculation_keys, v)
+		table.insert(SMODS.scoring_parameter_keys, v)
 	end
 	if not smods_xchips then
 		for _, v in ipairs({ "x_chips", "xchips", "Xchip_mod" }) do
-			table.insert(SMODS.calculation_keys, v)
+			table.insert(SMODS.scoring_parameter_keys, v)
 		end
 	end
 end
