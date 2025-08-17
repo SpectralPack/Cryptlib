@@ -126,7 +126,6 @@ pattern = '''function love.load()'''
 position = "before"
 payload = '''
 if not Cryptid then 
-    Cryptid = {}
     CryptLib = true
     Cryptid.aliases = {}
     Cryptid.pointerblist = {}
