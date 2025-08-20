@@ -1,17 +1,4 @@
 if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.can_load) then
-	function to_number(a)
-		return a
-	end
-	function to_big(a)
-		return a
-	end
-	function lenient_bignum(a)
-		return a
-	end
-	function is_number(x)
-		return type(x) == "number"
-	end
-
 	local smods_xchips = false
 	for _, v in pairs(SMODS.scoring_parameter_keys) do
 		if v == "x_chips" then
