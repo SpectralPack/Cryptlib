@@ -42,8 +42,7 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 				juice_card(effect.card)
 			end
 			local chips = SMODS.Scoring_Parameters["chips"]
-			chips.current = mod_chips(chips.current ^ amount)
-			update_hand_text({delay = 0}, {chips = chips.current})
+			chips:modify((chips.current ^ amount) - chips.current)
 			if not effect.remove_default_message then
 				if from_edition then
 					card_eval_status_text(
@@ -76,8 +75,7 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 				juice_card(effect.card)
 			end
 			local mult = SMODS.Scoring_Parameters["mult"]
-			mult.current = mod_mult(mult.current ^ amount)
-			update_hand_text({delay = 0}, {mult = mult.current})
+			mult:modify((mult.current ^ amount) - mult.current)
 			if not effect.remove_default_message then
 				if from_edition then
 					card_eval_status_text(
