@@ -102,4 +102,7 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 			table.insert(SMODS.scoring_parameter_keys, v)
 		end
 	end
+	to_big = to_big or function(x) return x end
+	to_number = to_number or function(x) return x end
+	lenient_bignum = lenient_bignum or function(x) return x end
 end
