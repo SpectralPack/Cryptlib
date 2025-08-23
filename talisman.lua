@@ -93,7 +93,7 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 	end
 	for _, v in ipairs({
 		"e_mult", "emult", "Emult_mod",
-		"e_chips", "echips", "Echips_mod",
+		"e_chips", "echips", "Echip_mod",
 	}) do
 		table.insert(SMODS.scoring_parameter_keys, v)
 	end
