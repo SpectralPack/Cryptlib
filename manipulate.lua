@@ -15,7 +15,8 @@ Cryptid.misprintize_value_blacklist = {
 	colour = false,
 	suit_nominal_original = false,
 	times_played = false,
-	extra_slots_used = false
+	extra_slots_used = false,
+	card_limit = false,
 	-- TARGET: Misprintize Value Blacklist (format: key = false, )
 }
 Cryptid.misprintize_bignum_blacklist = {
