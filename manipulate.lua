@@ -59,6 +59,7 @@ function Card:get_nominal(mod)
 end
 
 function Cryptid.manipulate(card, args)
+	if not card or not card.config or not card.config.center then return end
 	if not Card.no(card, "immutable", true) or (args and args.bypass_checks) then
 		if not args then
 			return Cryptid.manipulate(card, {
