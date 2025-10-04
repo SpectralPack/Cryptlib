@@ -22,7 +22,13 @@ Cryptid.misprintize_value_blacklist = {
 Cryptid.misprintize_bignum_blacklist = {
 	odds = false,
 	cry_prob = false,
-	--nominal = false,
+	perma_repetitions = false,
+	repetitions = false,
+	nominal = false, --no clue why this was commented, it causes a crash if not
+}
+Cryptid.misprintize_value_cap = { --yeahh.. this is mostly just for retriggers, but i might as well make it fully functional
+	perma_repetitions = 40,
+	repetitions = 40,
 }
 
 function Cryptid.log_random(seed, min, max)
@@ -227,6 +233,9 @@ function Cryptid.manipulate_value(num, args, is_big, name)
 				num = to_big(num):arrow(args.value.arrows, to_big(args.value.height))
 			end
 		end
+	end
+	if Cryptid.misprintize_value_cap[name] then
+		num = math.min(num, Cryptid.misprintize_value_cap[name])
 	end
 	if Cryptid.misprintize_bignum_blacklist[name] == false then
 		num = to_number(num)
