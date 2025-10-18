@@ -1193,3 +1193,12 @@ function Cryptid.forcetriggerConsumableCheck(card)
 	end
 	return card.config.center.demicoloncompat or not card.config.center.original_mod
 end
+
+SMODS.Sound({
+	key = "forcetrigger",
+	path = "forcetrigger.ogg",
+})
+SMODS.Sound({
+	key = "demitrigger",
+	path = "demitrigger.ogg",
+})
