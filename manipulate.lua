@@ -109,13 +109,13 @@ function Cryptid.manipulate(card, args)
 				end
 				if caps then
 					for i, v in pairs(caps) do
-						if type(v) == "table" and not v.tetrate then
+						if Cryptid.is_big(v) then
 							for i2, v2 in pairs(v) do
 								if to_big(card.ability[i][i2]) > to_big(v2) then
 									card.ability[i][i2] = Cryptid.sanity_check(v2, Cryptid.is_card_big(card))
 								end
 							end
-						elseif (type(v) == "table" and v.tetrate) or type(v) == "number" then
+						elseif Cryptid.is_number(v) then
 							if to_big(card.ability[i]) > to_big(v) then
 								card.ability[i] = Cryptid.sanity_check(v, Cryptid.is_card_big(card))
 							end
@@ -127,7 +127,7 @@ function Cryptid.manipulate(card, args)
 			if not Cryptid.base_values[card.config.center.key] then
 				Cryptid.base_values[card.config.center.key] = {}
 				for i, v in pairs(config) do
-					if (type(v) == "table" and v.tetrate) or type(v) == "number" and to_big(v) ~= to_big(0) then
+					if Cryptid.is_number(v) and to_big(v) ~= to_big(0) then
 						Cryptid.base_values[card.config.center.key][i .. "ability"] = v
 					elseif type(v) == "table" then
 						for i2, v2 in pairs(v) do
@@ -159,7 +159,7 @@ function Cryptid.manipulate_table(card, ref_table, ref_value, args, tblkey)
 	end
 	for i, v in pairs(ref_table[ref_value]) do
 		if
-			(type(v) == "number" or (type(v) == "table" and v.tetrate))
+			Cryptid.is_number(v)
 			and Cryptid.misprintize_value_blacklist[i] ~= false
 		then
 			local num = v
@@ -265,7 +265,7 @@ function Cryptid.sanity_check(val, is_big)
 		if not val or type(val) == "number" and (val ~= val or val > 1e300 or val < -1e300) then
 			val = 1e300
 		end
-		if type(val) == "table" then
+		if Cryptid.is_big(val) then
 			return val
 		end
 		if val > 1e100 or val < -1e100 then
@@ -275,7 +275,7 @@ function Cryptid.sanity_check(val, is_big)
 	if not val or type(val) == "number" and (val ~= val or val > 1e300 or val < -1e300) then
 		return 1e300
 	end
-	if type(val) == "table" then
+	if Cryptid.is_big(val) then
 		if val > to_big(1e300) then
 			return 1e300
 		end
