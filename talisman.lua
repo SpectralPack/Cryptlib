@@ -1,11 +1,4 @@
-if SMODS and SMODS.Mods and not (SMODS.Mods.Talisman or SMODS.Mods.cdataman or {}).can_load then
-	local smods_xchips = false
-	for _, v in pairs(SMODS.scoring_parameter_keys) do
-		if v == "x_chips" then
-			smods_xchips = true
-			break
-		end
-	end
+if SMODS then
 	SMODS.Sound({
 		key = "emult",
 		path = "ExponentialMult.wav",
@@ -18,6 +11,16 @@ if SMODS and SMODS.Mods and not (SMODS.Mods.Talisman or SMODS.Mods.cdataman or {
 		key = "xchip",
 		path = "MultiplicativeChips.wav",
 	})
+end
+
+if SMODS and SMODS.Mods and not (SMODS.Mods.Talisman or SMODS.Mods.cdataman or {}).can_load then
+	local smods_xchips = false
+	for _, v in pairs(SMODS.scoring_parameter_keys) do
+		if v == "x_chips" then
+			smods_xchips = true
+			break
+		end
+	end
 	local scie = SMODS.calculate_individual_effect
 	function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
 		local ret = scie(effect, scored_card, key, amount, from_edition)
