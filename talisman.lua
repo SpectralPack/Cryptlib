@@ -1,4 +1,4 @@
-if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.can_load) then
+if SMODS and SMODS.Mods and not (SMODS.Mods.Talisman or SMODS.Mods.cdataman or {}).can_load then
 	local smods_xchips = false
 	for _, v in pairs(SMODS.scoring_parameter_keys) do
 		if v == "x_chips" then
@@ -105,4 +105,5 @@ if SMODS and SMODS.Mods and (not SMODS.Mods.Talisman or not SMODS.Mods.Talisman.
 	to_big = to_big or function(x) return x end
 	to_number = to_number or function(x) return x end
 	lenient_bignum = lenient_bignum or function(x) return x end
+	is_number = is_number or function(x) return x end
 end
