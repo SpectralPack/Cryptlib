@@ -187,6 +187,7 @@ function Cryptid.manipulate_table(card, ref_table, ref_value, args, tblkey)
 end
 
 function Cryptid.manipulate_value(num, args, is_big, name)
+	if not Cryptid.is_number(num) then return end
 	if args.func then
 		num = args.func(num, args, is_big, name)
 	else

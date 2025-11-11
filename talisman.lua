@@ -108,5 +108,5 @@ if SMODS and SMODS.Mods and not (SMODS.Mods.Talisman or SMODS.Mods.cdataman or {
 	to_big = to_big or function(x) return x end
 	to_number = to_number or function(x) return x end
 	lenient_bignum = lenient_bignum or function(x) return x end
-	is_number = is_number or function(x) return x end
+	is_number = is_number or function(x) return type(x) == "number" end
 end
