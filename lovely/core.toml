@@ -18,6 +18,18 @@ assembled_string = assembled_string..(type(subpart) == 'string' and subpart or (
 '''
 match_indent = true
 
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/utils.lua"]'''
+pattern = '''
+assembled_string = assembled_string..(type(subpart) == 'string' and subpart or format_ui_value(args.vars[tonumber(subpart[1])]) or 'ERROR')
+'''
+position = "at"
+payload = '''
+assembled_string = assembled_string..(type(subpart) == 'string' and subpart or (Cryptid.pluralize and Cryptid.pluralize(subpart[1], args.vars)) or format_ui_value(args.vars[tonumber(subpart[1])]) or 'ERROR')
+'''
+match_indent = true
+
 #i know its ugly but its to make sure it doesnt do stuff when talisman is installed
 [[patches]]
 [patches.pattern]
@@ -134,6 +146,7 @@ if not Cryptid then
     Cryptid.pointerblistrarity = {}
     Cryptid.mod_gameset_whitelist = {}
     Cryptid.mod_whitelist = {}
+    Cryptid.ascension_numbers = {}
 
     Cryptid.rarity_table = {
     }

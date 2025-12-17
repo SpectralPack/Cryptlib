@@ -1008,7 +1008,6 @@ function Cryptid.forcetrigger(card, context)
 
 			local ggpn = G.GAME.probabilities.normal
 			G.GAME.probabilities.normal = 1e9
-
 			if not card.config.center.force_use then
 				card:use_consumeable()
 			else

@@ -14,7 +14,9 @@ local files = {
     "manipulate",
     "forcetrigger",
     "utilities",
-    "content_sets"
+    "content_sets",
+    "ascended",
+    "unredeem"
 }
 for i, v in pairs(files) do
     local file, err = SMODS.load_file(v..".lua")
